@@ -18,14 +18,24 @@ export default function CheckoutPage() {
     setIsProcessing(true);
     
     if (session) {
-      await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items, total: getTotal() })
-      });
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items, total: getTotal() })
+        });
+        const data = await res.json();
+        
+        if (data.url) {
+          window.location.href = data.url;
+          return; // Stop execution to allow redirect
+        }
+      } catch (e) {
+        console.error("Checkout error:", e);
+      }
     }
 
-    // Mock processing delay
+    // Mock processing delay fallback
     setTimeout(() => {
       setIsProcessing(false);
       setIsSuccess(true);

@@ -10,6 +10,8 @@ import { useState, useMemo } from "react";
 export default function StoreClient({ games }: { games: Game[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState("newest");
+  const [maxPrice, setMaxPrice] = useState(200);
 
   const categories = useMemo(() => {
     const cats = new Set(games.map(g => g.genre));
@@ -17,12 +19,19 @@ export default function StoreClient({ games }: { games: Game[] }) {
   }, [games]);
 
   const filteredGames = useMemo(() => {
-    return games.filter(game => {
+    let result = games.filter(game => {
       const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = selectedCategory ? game.genre === selectedCategory : true;
-      return matchesSearch && matchesCategory;
+      const matchesPrice = game.price <= maxPrice;
+      return matchesSearch && matchesCategory && matchesPrice;
     });
-  }, [games, searchQuery, selectedCategory]);
+
+    if (sortBy === "price-low") result.sort((a, b) => a.price - b.price);
+    else if (sortBy === "price-high") result.sort((a, b) => b.price - a.price);
+    else if (sortBy === "newest") result.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
+
+    return result;
+  }, [games, searchQuery, selectedCategory, sortBy, maxPrice]);
 
   return (
     <div className={styles.store}>
@@ -68,6 +77,28 @@ export default function StoreClient({ games }: { games: Game[] }) {
               {cat}
             </button>
           ))}
+        </div>
+
+        <div className={`container ${styles.advancedFilters}`}>
+          <div className={styles.filterGroup}>
+            <label>Sort By:</label>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={styles.select}>
+              <option value="newest">Newest Releases</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+          <div className={styles.filterGroup}>
+            <label>Max Price: ${maxPrice}</label>
+            <input 
+              type="range" 
+              min="0" 
+              max="200" 
+              value={maxPrice} 
+              onChange={(e) => setMaxPrice(Number(e.target.value))} 
+              className={styles.slider}
+            />
+          </div>
         </div>
       </header>
       

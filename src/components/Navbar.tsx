@@ -22,6 +22,7 @@ export default function Navbar() {
           {session ? (
             <>
               <Link href="/library">Library</Link>
+              <Link href="/profile">Profile</Link>
               <Link href="/admin" style={{ color: '#c5a880' }}>Admin</Link>
             </>
           ) : (
