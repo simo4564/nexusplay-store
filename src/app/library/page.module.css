@@ -1,0 +1,72 @@
+.container {
+  padding-top: 120px;
+  min-height: 100vh;
+  padding-bottom: 6rem;
+}
+
+.header {
+  margin-bottom: 4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #9ca3af;
+  font-size: 1.2rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: rgba(10, 10, 10, 0.5);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.emptyState h2 {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.emptyState p {
+  color: #9ca3af;
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.gameWrapper {
+  position: relative;
+}
+
+.playOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 1.5rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.gameWrapper:hover .playOverlay {
+  opacity: 1;
+  pointer-events: auto;
+}
