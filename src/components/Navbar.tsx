@@ -19,6 +19,9 @@ export default function Navbar() {
         <div className="nav-links">
           <Link href="/">Home</Link>
           <Link href="/store">Store</Link>
+          <Link href="/play" style={{ color: '#c5a880', fontWeight: 'bold' }}>
+            Mini-Game
+          </Link>
           {session ? (
             <>
               <Link href="/library">Library</Link>
