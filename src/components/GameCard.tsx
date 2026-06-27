@@ -1,3 +1,5 @@
+"use client";
+
 import { Game } from "@prisma/client";
 import styles from "./GameCard.module.css";
 import Image from "next/image";
